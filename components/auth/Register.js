@@ -2,7 +2,7 @@
 // funtions are statless while components are stateful
 import React, { Component } from 'react'
 import {Button, TextInput, View} from 'react-native'
-
+import firebase from 'firebase'
 export class Register extends Component {
 
     // to initialize the component. first function that will run
@@ -18,7 +18,13 @@ export class Register extends Component {
         this.onSignUp=this.onSignUp.bind(this)
     }
 
-    onSignUp()
+    onSignUp(){
+        const {email,password,name}=this.state;
+        firebase.auth().createUserWithEmailAndPassword(email,password)
+        .then((result)=>console.log(result))
+        .catch(error=>console.log(error))
+    }
+
     render() {
         return (
             <View>
