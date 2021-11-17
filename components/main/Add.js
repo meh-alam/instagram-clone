@@ -36,6 +36,7 @@ export default function Add({ navigation }) {
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
+      // mediatypeoptions says which type of media are you accepting like videos, images, all etc. we are using just images in this project
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
@@ -52,6 +53,7 @@ export default function Add({ navigation }) {
   if (hasCameraPermission === null || hasGalleryPermission === false) {
     return <View />;
   }
+  // if the user doesn't have both the permissions
   if (hasCameraPermission === false || hasGalleryPermission === false) {
     return <Text>No access to camera</Text>;
   }
@@ -82,6 +84,7 @@ export default function Add({ navigation }) {
       </Button>
       {/* this button takes a picture */}
       <Button title="Take Picture" onPress={() => takePicture()} />
+      {/* this button picks an image from the gallery */}
       <Button title="Pick Image From Gallery" onPress={() => pickImage()} />
       <Button title="Save" onPress={() => navigation.navigate('Save', { image })} />
       {/* image is a state variable, the following condition says if the image exists then show the following tag otherwise don't */}
