@@ -23,9 +23,13 @@ export default function Add({ navigation }) {
     })();
   }, []);
 
+  // a function for taking picture trigerred by take-picture button down in the return statement below the flip image button
   const takePicture = async () => {
+    // camera is a state variable set using useState() up top
+    // if camera exists and is populated with something
     if (camera) {
       const data = await camera.takePictureAsync(null);
+      // when we take a picture it is generally saved in a temporary file inside our phone and that temporary file has a uri for your device which will be the following one
       setImage(data.uri);
     }
   }
@@ -55,6 +59,7 @@ export default function Add({ navigation }) {
     <View style={{ flex: 1 }}>
       <View style={styles.cameraContainer}>
         <Camera
+          // giving camera component access to the camera state variable
           ref={ref => setCamera(ref)}
           style={styles.fixedRatio}
           type={type}
@@ -75,9 +80,11 @@ export default function Add({ navigation }) {
           );
         }}>
       </Button>
+      {/* this button takes a picture */}
       <Button title="Take Picture" onPress={() => takePicture()} />
       <Button title="Pick Image From Gallery" onPress={() => pickImage()} />
       <Button title="Save" onPress={() => navigation.navigate('Save', { image })} />
+      {/* image is a state variable, the following condition says if the image exists then show the following tag otherwise don't */}
       {image && <Image source={{ uri: image }} style={{ flex: 1 }} />}
     </View>
   );
