@@ -21,7 +21,9 @@ export class Register extends Component {
     // creating user
     onSignUp(){
         const {email,password,name}=this.state;
+        // creating user inside firebase authentication
         firebase.auth().createUserWithEmailAndPassword(email,password)
+        // now pushing the result (document) to firestore
         .then((result)=>{
             firebase.firestore().collection("users")
                 .doc(firebase.auth().currentUser.uid)

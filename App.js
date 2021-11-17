@@ -8,9 +8,23 @@ import {createStackNavigator} from '@react-navigation/stack'
 // importing required components
 import LandingScreen from './components/auth/Landing'
 import RegisterScreen from './components/auth/Register'
+import LoginScreen from './components/auth/Login'
+import MainScreen from './components/Main'
+import AddScreen from './components/main/Add'
 
 // importing firebase
 import firebase from 'firebase'
+
+// importing redux
+    // provider is tag that will ingo our components and everthing that's inside our app
+import { Provider } from 'react-redux';
+import {createStore,applyMiddleware} from 'redux'
+    // main reducer in our redux
+import rootReducer from './redux/reducers'
+    // thunk is a middleware that allows us to use dispatch function inside here
+import thunk from 'redux-thunk'
+    // creating store
+const store=createStore(rootReducer,applyMiddleware(thunk))
 
 // firebase config
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -76,14 +90,22 @@ export class App extends Component {
             {/* here options is the customization that we apply if want to each screen */}
             <Stack.Screen name='Landing' component={LandingScreen} options={{headerShown:false}} />
             <Stack.Screen name='Register' component={RegisterScreen}/>
+            <Stack.Screen name='Login' component={LoginScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       );
     }
     return(
-      <View style={{flex:1,justifyContent:'center'}}>
-        <Text>User is logged in</Text>
-      </View>
+      <Provider store={store}>
+        <NavigationContainer>
+        <Stack.Navigator initialRouteName='Main'>
+            {/* here options is the customization that we apply if want to each screen */}
+            {/* the firt screen that shows up and that contains the botton navigater that enables us to switch along the screens */}
+            <Stack.Screen name='Main' component={MainScreen} options={{headerShown:false}} />
+            <Stack.Screen name='Add' component={AddScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
     )
   }
 }
