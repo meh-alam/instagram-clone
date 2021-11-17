@@ -65,7 +65,7 @@ export default function Add({ navigation }) {
       
       {/* this button flips the image */}
       <Button
-        title="Flip Image"
+        title="Flip Image card"
         onPress={() => {
           setType(
             // if image type is back then it will flip it to front and vice versa
