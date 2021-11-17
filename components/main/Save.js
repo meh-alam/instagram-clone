@@ -63,7 +63,7 @@ export default function Save(props) {
         <View style={{ flex: 1 }}>
             <Image source={{ uri: props.route.params.image }} />
             <TextInput
-                placeholder="Write a Caption here. . ."
+                placeholder="Write a Caption. . ."
                 onChangeText={(caption) => setCaption(caption)}
             />
 
