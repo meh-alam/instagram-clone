@@ -86,6 +86,7 @@ export default function Add({ navigation }) {
       <Button title="Take Picture" onPress={() => takePicture()} />
       {/* this button picks an image from the gallery */}
       <Button title="Pick Image From Gallery" onPress={() => pickImage()} />
+      {/* this button is gonna save image to the save component. Using navigation.navigate('Save') save component'll be able to access the image through props  */}
       <Button title="Save" onPress={() => navigation.navigate('Save', { image })} />
       {/* image is a state variable, the following condition says if the image exists then show the following tag otherwise don't */}
       {image && <Image source={{ uri: image }} style={{ flex: 1 }} />}

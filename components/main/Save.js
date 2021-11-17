@@ -1,3 +1,5 @@
+// THIS IS THE COMPONENT RESPONSIBLE FOR SAVING THE IMAGE
+
 import React, { useState } from 'react'
 import { View, TextInput, Image, Button } from 'react-native'
 
