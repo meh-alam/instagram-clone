@@ -58,13 +58,17 @@ export default function Add({ navigation }) {
           ref={ref => setCamera(ref)}
           style={styles.fixedRatio}
           type={type}
+          // ratio is a prop in the expo documentation that we can use
+          // (string) Android only. A string representing aspect ratio of the preview, eg. 4:3, 16:9, 1:1 
           ratio={'1:1'} />
       </View>
-
+      
+      {/* this button flips the image */}
       <Button
         title="Flip Image"
         onPress={() => {
           setType(
+            // if image type is back then it will flip it to front and vice versa
             type === Camera.Constants.Type.back
               ? Camera.Constants.Type.front
               : Camera.Constants.Type.back
