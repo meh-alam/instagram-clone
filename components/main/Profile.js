@@ -56,7 +56,7 @@ function Profile(props) {
         } else {
             setFollowing(false);
         }
-        // only when the following variables update re-run useEffect
+        // only when the following variables update re-run useEffect hook
     }, [props.route.params.uid, props.following])
 
     const onFollow = () => {
