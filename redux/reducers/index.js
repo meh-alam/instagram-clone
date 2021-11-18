@@ -2,9 +2,12 @@
 
 import {combineReducers} from 'redux'
 import {user} from './user'
+import { users } from './users';
 
+// collection of all the reducers that we have in our reducers folder
 const Reducers= combineReducers({
-    userState: user
+    userState: user,
+    userState: users
 })
 
 export default Reducers;

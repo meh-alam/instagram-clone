@@ -28,7 +28,8 @@ export const user = (state = initialState, action) => {
                 following: action.following
             }
         case CLEAR_DATA:
-            return initialState
+            // return the initialState with everything empty and null, as it is up top in this file
+            return initialState 
         default:
             return state;
     }

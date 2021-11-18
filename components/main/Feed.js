@@ -10,7 +10,10 @@ function Feed(props) {
 
     useEffect(() => {
         if (props.usersFollowingLoaded == props.following.length && props.following.length !== 0) {
+            // ordering the posts using timestap
             props.feed.sort(function (x, y) {
+                // if x.creation is greater then y.creation then the following would be positive
+                // and if less, then will be negative and hence will sort all accordingly
                 return x.creation - y.creation;
             })
             setPosts(props.feed);

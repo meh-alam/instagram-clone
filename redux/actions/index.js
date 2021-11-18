@@ -3,11 +3,14 @@
 import { USER_STATE_CHANGE, USER_POSTS_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE, USERS_DATA_STATE_CHANGE,USERS_POSTS_STATE_CHANGE, USERS_LIKES_STATE_CHANGE, CLEAR_DATA} from '../constants/index'
 import firebase from 'firebase'
 import { SnapshotViewIOSComponent } from 'react-native'
+import { users } from '../reducers/users'
 require('firebase/firestore')
 
 // these are the functions that our frontend will call in order to triger database actions
+    //function for clearing the redux data
 export function clearData() {
     return ((dispatch) => {
+        // it will be triggered both in the user.js and users.js files (in every single reducer that we have)
         dispatch({type: CLEAR_DATA})
     })
 }
@@ -48,6 +51,9 @@ export function fetchUserPosts() {
             .orderBy("creation", "asc")
             .get()
             .then((snapshot) => {
+                // map will iterate through all the docs inside the snapshot. It iterates through the first doc,it gets 
+                // the data and id, returns the data and id inside an object that we are returning and so on for 
+                // all the docs
                 let posts = snapshot.docs.map(doc => {
                     const data = doc.data();
                     const id = doc.id;
@@ -60,16 +66,26 @@ export function fetchUserPosts() {
 
 export function fetchUserFollowing() {
     return ((dispatch) => {
-        firebase.firestore()
+        firebase.firestore() 
+            // go to collection with the name following
             .collection("following")
+            // inside following open the current user
             .doc(firebase.auth().currentUser.uid)
+            // inside that profile go to userFollowing collection
             .collection("userFollowing")
+            // for that collection do the following
+            // onSnapshot is a listener, this means u will be receving constant updatas anytime the database changes
+            // anytime a user is added or removed from this collection, this function will be triggered and we will be able to get the most updated list
+            // of the users that the currentUser is following
             .onSnapshot((snapshot) => {
                 let following = snapshot.docs.map(doc => {
                     const id = doc.id;
                     return id
                 })
                 dispatch({ type: USER_FOLLOWING_STATE_CHANGE, following });
+                
+                // loop to go through all the users that the current user is following and calling fetchUsersData()
+                // accordingly for each and every single user
                 for(let i = 0; i < following.length; i++){
                     dispatch(fetchUsersData(following[i], true));
                 }
@@ -77,9 +93,16 @@ export function fetchUserFollowing() {
     })
 }
 
+// this function will get the users information that(the users)we get through above function (fetchUsersFollowing())
 export function fetchUsersData(uid, getPosts) {
+    // getState gives you the current state of the redux store so that we can get the users following   
     return ((dispatch, getState) => {
+        // we want to first see if the user exists in our users array in users.js state
+        // because we don't want duplication for the same user
+            // what the following logic is doing is that if an element with uid that was passed along exists within
+            // users.js.initialState.users array. if it does then found will be true else not
         const found = getState().usersState.users.some(el => el.uid === uid);
+        // if the user doesn't exist
         if (!found) {
             firebase.firestore()
                 .collection("users")
@@ -89,7 +112,7 @@ export function fetchUsersData(uid, getPosts) {
                     if (snapshot.exists) {
                         let user = snapshot.data();
                         user.uid = snapshot.id;
-
+                        // this will update users.js.users by calling USERS_DATA_STATE_CHANGE case inside switch
                         dispatch({ type: USERS_DATA_STATE_CHANGE, user });
                     }
                     else {
@@ -103,20 +126,21 @@ export function fetchUsersData(uid, getPosts) {
     })
 }
 
+// this function is responsible for fetching all the users that the current user is following
 export function fetchUsersFollowingPosts(uid) {
     return ((dispatch, getState) => {
         firebase.firestore()
             .collection("posts")
             .doc(uid)
             .collection("userPosts")
+            // ascending order depending on the creation date
             .orderBy("creation", "asc")
             .get()
             .then((snapshot) => {
                 const uid = snapshot.query._.C_.path.segments[1]
+                // with the use of find it will give u the user that with the same uid
                 const user = getState().usersState.users.find(el => el.uid === uid);
 
-                // map will iterate through all the docs inside the snapshot. It iterates through the first doc,it gets the data and id, returns the data and 
-                // id inside an object that we are returning and so on for all the docs
                 let posts = snapshot.docs.map(doc => {
                     const data = doc.data();
                     const id = doc.id;
