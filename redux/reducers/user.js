@@ -3,6 +3,7 @@ import { USER_STATE_CHANGE, USER_POSTS_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE
 // everything that is connected to our user (user state variable)
 const initialState = {
     currentUser: null,
+    // it will contain all the user's posts
     posts: [],
     following: [],
 }

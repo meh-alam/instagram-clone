@@ -34,6 +34,8 @@ export class Main extends Component {
     render() {
         return (
             <Tab.Navigator initialRouteName="Feed" labeled={false}>
+                
+                {/* FeedScreen started here */}
                 <Tab.Screen name="Feed" component={FeedScreen}
                     options={{
                         tabBarIcon: ({ color, size }) => (
@@ -41,9 +43,12 @@ export class Main extends Component {
                             <MaterialCommunityIcons name="home" color={color} size={26} />
                         ),
                     }} />
+
+                {/* SearchScreen started here */}
                 <Tab.Screen name="Search" component={SearchScreen} navigation={this.props.navigation}
                     options={{
                         tabBarIcon: ({ color, size }) => (
+                            // magnifying glass icon
                             <MaterialCommunityIcons name="magnify" color={color} size={26} />
                         ),
                     }} />

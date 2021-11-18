@@ -10,14 +10,18 @@ function Profile(props) {
     const [user, setUser] = useState(null);
     const [following, setFollowing] = useState(false)
 
+    // when the app loads, if the user is different from the currentUser fetch the data from the database 
     useEffect(() => {
         const { currentUser, posts } = props;
 
+        //if current user
         if (props.route.params.uid === firebase.auth().currentUser.uid) {
             setUser(currentUser)
             setUserPosts(posts)
         }
+        // if not the current user
         else {
+            // display the profile of that user (having that uid)
             firebase.firestore()
                 .collection("users")
                 .doc(props.route.params.uid)
@@ -30,6 +34,7 @@ function Profile(props) {
                         console.log('does not exist')
                     }
                 })
+            // and now get all the posts of that user (having that uid)
             firebase.firestore()
                 .collection("posts")
                 .doc(props.route.params.uid)
@@ -51,7 +56,7 @@ function Profile(props) {
         } else {
             setFollowing(false);
         }
-
+        // only when the following variables update re-run useEffect
     }, [props.route.params.uid, props.following])
 
     const onFollow = () => {
@@ -75,6 +80,8 @@ function Profile(props) {
         firebase.auth().signOut();
     }
 
+    // if the user is not loaded before the useEffect is being called, in that case we'll have null in the user variable which will generate error
+    // so below we are handling that scenario/case
     if (user === null) {
         return <View />
     }
@@ -105,7 +112,7 @@ function Profile(props) {
                         onPress={() => onLogout()}
                     />}
             </View>
-
+            {/* this gallery container will contain all the posts */}
             <View style={styles.containerGallery}>
                 <FlatList
                     numColumns={3}
@@ -117,6 +124,7 @@ function Profile(props) {
 
                             <Image
                                 style={styles.image}
+                                // downloadURL is a key (variable) in firebase
                                 source={{ uri: item.downloadURL }}
                             />
                         </View>
@@ -149,9 +157,12 @@ const styles = StyleSheet.create({
         aspectRatio: 1 / 1
     }
 })
+
+// fetching data from the redux store
 const mapStateToProps = (store) => ({
     currentUser: store.userState.currentUser,
     posts: store.userState.posts,
     following: store.userState.following
 })
+
 export default connect(mapStateToProps, null)(Profile);

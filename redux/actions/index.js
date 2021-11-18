@@ -12,6 +12,7 @@ export function clearData() {
     })
 }
 
+// function to fetch a user
 export function fetchUser() {
     return ((dispatch) => {
         // this is the same process as setting/reg the user but instead of set() we use get() to get/fetch the user
@@ -34,12 +35,16 @@ export function fetchUser() {
     })
 }
 
+// function to fetch user's posts
 export function fetchUserPosts() {
     return ((dispatch) => {
         firebase.firestore()
+            // structure inside firestore collection then a doc inside which a collection
             .collection("posts")
             .doc(firebase.auth().currentUser.uid)
             .collection("userPosts")
+            // sorting posts in ascending order using timestamps (timestamp is an integer at 1970 as absolute zero and from then it is constantly increasing
+            // each and every microsecond)
             .orderBy("creation", "asc")
             .get()
             .then((snapshot) => {
@@ -110,7 +115,8 @@ export function fetchUsersFollowingPosts(uid) {
                 const uid = snapshot.query._.C_.path.segments[1]
                 const user = getState().usersState.users.find(el => el.uid === uid);
 
-
+                // map will iterate through all the docs inside the snapshot. It iterates through the first doc,it gets the data and id, returns the data and 
+                // id inside an object that we are returning and so on for all the docs
                 let posts = snapshot.docs.map(doc => {
                     const data = doc.data();
                     const id = doc.id;

@@ -11,6 +11,7 @@ import RegisterScreen from './components/auth/Register'
 import LoginScreen from './components/auth/Login'
 import MainScreen from './components/Main'
 import AddScreen from './components/main/Add'
+import SaveScreen from './components/main/Save'
 
 // importing firebase
 import firebase from 'firebase'
@@ -102,7 +103,9 @@ export class App extends Component {
             {/* here options is the customization that we apply if want to each screen */}
             {/* the firt screen that shows up and that contains the botton navigater that enables us to switch along the screens */}
             <Stack.Screen name='Main' component={MainScreen} options={{headerShown:false}} />
-            <Stack.Screen name='Add' component={AddScreen} />
+            {/* passing navigation as a prop we will be able to access it in add component */}
+            <Stack.Screen name='Add' component={AddScreen} navigation={this.props.navigation} />
+            <Stack.Screen name='Save' component={SaveScreen} navigation={this.props.navigation} />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>
