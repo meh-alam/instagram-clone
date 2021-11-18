@@ -26,7 +26,7 @@ export class Main extends Component {
     componentDidMount() {
         this.props.clearData();
         // it will call up index.js which then by calling dispatch (which is there in index.js) will call up the reducers at user.js and these will
-        // update the state of current user with what we get in our actions
+        // update the state of current user (loggedInUser) with what we get in our actions
         this.props.fetchUser();
         this.props.fetchUserPosts();
         this.props.fetchUserFollowing();
