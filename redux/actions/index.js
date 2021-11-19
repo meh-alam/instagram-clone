@@ -152,6 +152,7 @@ export function fetchUsersFollowingPosts(uid) {
                     return { id, ...data, user }
                 })
 
+                // looping through all the posts 
                 for(let i = 0; i< posts.length; i++){
                     dispatch(fetchUsersFollowingLikes(uid, posts[i].id))
                 }
@@ -161,6 +162,8 @@ export function fetchUsersFollowingPosts(uid) {
     })
 }
 
+
+// this function is responsible for fetching all the likes
 export function fetchUsersFollowingLikes(uid, postId) {
     return ((dispatch, getState) => {
         firebase.firestore()
@@ -169,11 +172,20 @@ export function fetchUsersFollowingLikes(uid, postId) {
             .collection("userPosts")
             .doc(postId)
             .collection("likes")
+            // if this is the currently loggedIn user's id 
             .doc(firebase.auth().currentUser.uid)
-            .onSnapshot((snapshot) => {
+            // here we aren't simply getting the likes like we did with users and posts, here we are going to listen for changes with in this value
+                // because anytime the user likes or dislikes a post this value changes
+                    // then we want to trigger this function yet again in order to change the data that we have on the post
+            .onSnapshot((snapshot) => { 
+                // we need postId here because we have feed(an array of post) inside redux.reducers.user.js.initialState
+                    // if we have the postId then we are able to quickly find the post in the array we want to change the status of  
                 const postId = snapshot.ZE.path.segments[3];
+                    // there is no easy way of getting the postId in this case, so we have to really dig deep to the obj and see where it is exactly
+                        // and the above is the most easy way of doing this
 
                 let currentUserLike = false;
+                // in order to know if the user likes the post or not is to know if the user exists or not in the current snapshot(collection)
                 if(snapshot.exists){
                     currentUserLike = true;
                 }

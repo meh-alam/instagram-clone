@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import { View,Text } from 'react-native';
 
-// an npm package that we have installed for navigations
+// an npm package that we have install for navigations
 import {NavigationContainer} from '@react-navigation/native'
 import {createStackNavigator} from '@react-navigation/stack'
 

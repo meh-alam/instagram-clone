@@ -8,7 +8,8 @@ import { connect } from 'react-redux'
 function Feed(props) {
     const [posts, setPosts] = useState([]);
 
-    useEffect(() => {
+    useEffect(() => { 
+        // second condition is if we don't have any user who is following
         if (props.usersFollowingLoaded == props.following.length && props.following.length !== 0) {
             // ordering the posts using timestap
             props.feed.sort(function (x, y) {
@@ -22,6 +23,7 @@ function Feed(props) {
 
     }, [props.usersFollowingLoaded, props.feed])
 
+    // this function will be triggered whenever the user presses the like button
     const onLikePress = (userId, postId) => {
         firebase.firestore()
             .collection("posts")
@@ -32,6 +34,8 @@ function Feed(props) {
             .doc(firebase.auth().currentUser.uid)
             .set({})
     }
+
+    // this function will be triggered whenever the user presses the dislike button
     const onDislikePress = (userId, postId) => {
         firebase.firestore()
             .collection("posts")
@@ -57,12 +61,15 @@ function Feed(props) {
                                 style={styles.image}
                                 source={{ uri: item.downloadURL }}
                             />
+
+                            {/* if currentUserLike is true, it means that the has has already liked the post, so give the option of dislike */}
                             { item.currentUserLike ?
                                 (
                                     <Button
                                         title="Dislike"
                                         onPress={() => onDislikePress(item.user.uid, item.id)} />
                                 )
+                                // if not already liked
                                 :
                                 (
                                     <Button
