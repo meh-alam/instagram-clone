@@ -3,6 +3,8 @@ import { USERS_DATA_STATE_CHANGE, USERS_POSTS_STATE_CHANGE, USERS_LIKES_STATE_CH
 const initialState = {
     users: [],
     feed: [],
+    // users that the current user is following
+      // this integer will let us know, how many users that the current user is following have loaded with the post included
     usersFollowingLoaded: 0,
 }
 

@@ -12,6 +12,7 @@ import LoginScreen from './components/auth/Login'
 import MainScreen from './components/Main'
 import AddScreen from './components/main/Add'
 import SaveScreen from './components/main/Save'
+import CommentScreen from './components/main/Comment'
 
 // importing firebase
 import firebase from 'firebase'
@@ -106,6 +107,7 @@ export class App extends Component {
             {/* passing navigation as a prop we will be able to access it in add component */}
             <Stack.Screen name='Add' component={AddScreen} navigation={this.props.navigation} />
             <Stack.Screen name='Save' component={SaveScreen} navigation={this.props.navigation} />
+            <Stack.Screen name='Comment' component={CommentScreen} navigation={this.props.navigation} />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>

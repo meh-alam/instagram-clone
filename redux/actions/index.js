@@ -87,6 +87,7 @@ export function fetchUserFollowing() {
                 // loop to go through all the users that the current user is following and calling fetchUsersData()
                 // accordingly for each and every single user
                 for(let i = 0; i < following.length; i++){
+                    // true is passed in order to make it sure that the usersFollowingPost will be called
                     dispatch(fetchUsersData(following[i], true));
                 }
             })
@@ -94,6 +95,8 @@ export function fetchUserFollowing() {
 }
 
 // this function will get the users information that(the users)we get through above function (fetchUsersFollowing())
+    // the getPosts boolean will tell if we are meant to fetch the posts or not, if we don't provide it the function
+    // is always gonna fetch the posts (see dispatch of this function down below)
 export function fetchUsersData(uid, getPosts) {
     // getState gives you the current state of the redux store so that we can get the users following   
     return ((dispatch, getState) => {
@@ -119,6 +122,8 @@ export function fetchUsersData(uid, getPosts) {
                         console.log('does not exist')
                     }
                 })
+
+                // if and only if the getPosts boolean is true only then run fetchUsersData
                 if(getPosts){
                     dispatch(fetchUsersFollowingPosts(uid));
                 }

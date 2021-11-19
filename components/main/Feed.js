@@ -15,7 +15,7 @@ function Feed(props) {
                 // if x.creation is greater then y.creation then the following would be positive
                 // and if less, then will be negative and hence will sort all accordingly
                 return x.creation - y.creation;
-            })
+            }) 
             setPosts(props.feed);
         }
         console.log(posts)
@@ -69,8 +69,11 @@ function Feed(props) {
                                         title="Like"
                                         onPress={() => onLikePress(item.user.uid, item.id)} />
                                 )
-                            }
+                            } 
+                            {/* a touchable text that will navigate us to the comments collection */}
                             <Text
+                                // navigating to the comments screen. The postId will tell the text which post's comments to be opened 
+                                    // and uid will tell about the user
                                 onPress={() => props.navigation.navigate('Comment', { postId: item.id, uid: item.user.uid })}>
                                 View Comments...
                                 </Text>
