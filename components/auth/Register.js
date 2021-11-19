@@ -1,7 +1,7 @@
 // we created this component as class-component because it will contain state
 // funtions are statless while components are stateful
 import React, { Component } from 'react'
-import {Button, TextInput, View} from 'react-native'
+import {Alert, Button, TextInput, View} from 'react-native'
 import firebase from 'firebase'
 export class Register extends Component {
 
@@ -31,7 +31,8 @@ export class Register extends Component {
                     name,email
                 })
         })
-        .catch(error=>console.log(error))
+        // .catch(error=>console.log(error))
+        .catch(error=>alert(error))
     }
 
 

@@ -178,9 +178,9 @@ export function fetchUsersFollowingLikes(uid, postId) {
                 // because anytime the user likes or dislikes a post this value changes
                     // then we want to trigger this function yet again in order to change the data that we have on the post
             .onSnapshot((snapshot) => { 
-                // we need postId here because we have feed(an array of post) inside redux.reducers.user.js.initialState
+                // we need postId here because we have feed(an array of posts) inside redux.reducers.user.js.initialState
                     // if we have the postId then we are able to quickly find the post in the array we want to change the status of  
-                const postId = snapshot.ZE.path.segments[3];
+                // const postId = snapshot.ZE.path.segments[3];
                     // there is no easy way of getting the postId in this case, so we have to really dig deep to the obj and see where it is exactly
                         // and the above is the most easy way of doing this
 

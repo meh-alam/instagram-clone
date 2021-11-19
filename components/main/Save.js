@@ -78,7 +78,6 @@ export default function Save(props) {
                 placeholder="Write a Caption. . ."
                 onChangeText={(caption) => setCaption(caption)}
             />
-
             <Button title="Save" onPress={() => uploadImage()} />
         </View>
     )
